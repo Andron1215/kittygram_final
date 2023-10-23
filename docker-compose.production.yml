@@ -17,7 +17,7 @@ services:
     env_file: .env
     volumes:
       - static:/static
-      - media:/var/www/media
+      - media:/var/www/kittygram/media/
 
   frontend:
     image: andron12/kittygram_frontend
@@ -33,4 +33,4 @@ services:
       - 9000:80
     volumes:
       - static:/static
-      - media:/var/www/media
+      - media:/var/www/kittygram/media/
