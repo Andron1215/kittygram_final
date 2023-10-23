@@ -1,26 +1,72 @@
-#  Как работать с репозиторием финального задания
+# Kittygram
 
-## Что нужно сделать
+Kittygram — сайт для любителей котиков.
 
-Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
+## Технологии
 
-## Как проверить работу с помощью автотестов
+- Python 3.9
+- Django 3.2.3
+- Node.js 6.9.0
+- React 17.0.2
+- PostgreSQL 13
+- Gunicorn 20.1.0
+- Nginx 1.22.1
+- Docker
 
-В корне репозитория создайте файл tests.yml со следующим содержимым:
-```yaml
-repo_owner: ваш_логин_на_гитхабе
-kittygram_domain: полная ссылка (https://доменное_имя) на ваш проект Kittygram
-taski_domain: полная ссылка (https://доменное_имя) на ваш проект Taski
-dockerhub_username: ваш_логин_на_докерхабе
+## Установка и запуск для удалённого сервера на Linux
+
+### Установка Docker на Linux
+
+Cамый простой способ установить Docker на Linux — скачать и выполнить официальный скрипт. Для этого поочерёдно выполните в терминале следующие команды:
+1) Скачайте и установите curl — консольную утилиту, которая умеет скачивать файлы по команде пользователя:
+```
+sudo apt update
+sudo apt install curl
+```
+2) С помощью утилиты curl скачайте скрипт для установки докера с официального сайта:
+```
+curl -fSL https://get.docker.com -o get-docker.sh 
+```
+3) Запустите сохранённый скрипт с правами суперпользователя:
+```
+sudo sh ./get-docker.sh
 ```
 
-Скопируйте содержимое файла `.github/workflows/main.yml` в файл `kittygram_workflow.yml` в корневой директории проекта.
+### Запуск проекта
 
-Для локального запуска тестов создайте виртуальное окружение, установите в него зависимости из backend/requirements.txt и запустите в корневой директории проекта `pytest`.
+*Для запуска необходим установленный Docker*
+1) Создайте каталок для проекта и войдите в него:
+```
+mkdir kittygram
+cd kittygram
+```
+2) Скачайте файл docker-compose.production.yml
+```
+curl -o docker-compose.production.yml https://raw.githubusercontent.com/Andron1215/kittygram_final/main/docker-compose.production.yml
+```
+3) Скачайте файл .env и отредактируйте его:
+```
+curl -o .env https://raw.githubusercontent.com/Andron1215/kittygram_final/main/.env.example
+nano .env
+```
+4) Скачайте и запустите проект:
+```
+sudo docker compose -f docker-compose.production.yml pull
+sudo docker compose -f docker-compose.production.yml down
+sudo docker compose -f docker-compose.production.yml up -d
+```
+5) Сделайте миграцию для базы данных:
+```
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+```
+6) Соберите статику и копируйте в каталог со статикой:
+```
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
+sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /static/static/
+```
 
-## Чек-лист для проверки перед отправкой задания
+## Авторы
 
-- Проект Taski доступен по доменному имени, указанному в `tests.yml`.
-- Проект Kittygram доступен по доменному имени, указанному в `tests.yml`.
-- Пуш в ветку main запускает тестирование и деплой Kittygram, а после успешного деплоя вам приходит сообщение в телеграм.
-- В корне проекта есть файл `kittygram_workflow.yml`.
+- Backend: Yandex Praktikum Team
+- Frontend: Yandex Praktikum Team
+- DevOps: Богидаев Андрей
