@@ -1,5 +1,7 @@
 # Kittygram
 
+[![Main Kittygram workflow](https://github.com/Andron1215/kittygram_final/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Andron1215/kittygram_final/actions/workflows/main.yml)
+
 Kittygram — сайт для любителей котиков.
 
 ## Технологии

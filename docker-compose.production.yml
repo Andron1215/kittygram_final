@@ -18,6 +18,8 @@ services:
     volumes:
       - static:/static
       - media:/media
+    depends_on:
+      - db
 
   frontend:
     image: andron12/kittygram_frontend
@@ -34,3 +36,7 @@ services:
     volumes:
       - static:/static
       - media:/media
+    depends_on:
+      - db
+      - backend
+      - frontend
