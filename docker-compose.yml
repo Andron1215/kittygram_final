@@ -37,6 +37,5 @@ services:
       - static:/static
       - media:/media
     depends_on:
-      - db
       - backend
       - frontend
